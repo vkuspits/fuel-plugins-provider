@@ -1,5 +1,5 @@
 Puppet::Type.newtype(:plugin) do
-  desc "Fuel plugin builder"
+  desc "Resource for fuel plugin builder"
 
   newparam(:path, :namevar => true) do
     desc "Name of resource or plugin path"
@@ -23,5 +23,5 @@ Puppet::Type.newtype(:plugin) do
   autorequire(:package) do
     ['rpm', 'rpm-build', 'dpkg-devel']
   end
-  
+
 end
