@@ -1,25 +1,6 @@
 Puppet::Type.newtype(:plugin) do
   	desc "Fuel plugin builder"
 
-=begin  	ensurable do
-  		def insync?(is)
-    	    @should ||= []
-	
-      	    case should
-    	    when :present
-    	      	return true unless [:absent, :purged, :held].include?(is)
-    	end
-
-    	newvalue(:present) do
-        	provider.install
-    	end
-
-    	newvalue(:absent) do
-        	provider.uninstall
-    	end
-    end
-=end
-
   	newparam(:path, :namevar => true) do
   		desc "Name of resource or plugin path"
   		munge do |value|
@@ -37,6 +18,11 @@ Puppet::Type.newtype(:plugin) do
   	newproperty(:build) do
   		newvalue(:true)
   		newvalue(:false)
+      defaultto(:true)
   	end
+
+    autorequire(:package) do
+      ['rpm', 'rpm-build', 'dpkg-devel']
+    end
 
 end
