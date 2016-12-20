@@ -7,11 +7,11 @@ Puppet::Type.type(:fuel_plugins).provide(:ruby) do
     @property_flush = {}
   end
 
-  def get_plugins
+  def self.get_plugins
     begin
-      output = fuel_plugins(['-getproxybypassdomains', int])
-    rescue Puppet::ExecutionFailure => e
-      Puppet.debug("#get_proxy_bypass_domains had an error -> #{e.inspect}")
+      output = fuel_plugins
+      rescue Puppet::ExecutionFailure => e
+      Puppet.debug("#get_plugins had an error -> #{e.inspect}")
       return nil
     end
     
@@ -29,7 +29,10 @@ Puppet::Type.type(:fuel_plugins).provide(:ruby) do
 
   end
 
-  def get_plugin
+  def self.instances
+    get_plugins.collect do 
+
+  def self.get_plugin
   	@propety_flush[:plugins].each do |plugin|
   	  if plugin[:name] == @resource.value(:plugin) && plugin[:version] == @resource.value(:version)
   	  	return plugin
