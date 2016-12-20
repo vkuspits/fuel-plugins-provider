@@ -14,12 +14,24 @@ Puppet::Type.type(:fuel_plugins).provide(:ruby) do
       Puppet.debug("#get_proxy_bypass_domains had an error -> #{e.inspect}")
       return nil
     end
-    @property_flush[:plugins] = output
+    
+    output = output.split("\n")[2..-1]
+    result = Array.new
+    output.each do |item|
+      tmp = Hash.new
+      item = item.split('|')
+      tmp[:name] = item[1].strip
+      tmp[:version] = item[2].strip
+      result << tmp
+    end
+
+    @property_flush[:plugins] = result
+
   end
 
   def get_plugin
   	@propety_flush[:plugins].each do |plugin|
-  	  if plugin == @resource.value(:plugin)
+  	  if plugin[:name] == @resource.value(:plugin) && plugin[:version] == @resource.value(:version)
   	  	return plugin
   	  end
   	end
