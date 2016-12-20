@@ -21,7 +21,7 @@ Puppet::Type.newtype(:plugin) do
   end
 
   autorequire(:package) do
-    ['rpm', 'rpm-build', 'dpkg-devel']
+    ['rpm', 'rpm-build', 'dpkg-devel', 'createrepo', 'dpkg-dev']
   end
 
 end
