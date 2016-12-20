@@ -1,0 +1,39 @@
+Puppet::Type.type(:fuel_plugins).provide(:ruby) do
+  desc "Provider for fuel plugins"
+  command :fuel_plugins => 'fuel plugins'
+
+  def initialize(value={})
+    super(value)
+    @property_flush = {}
+  end
+
+  def get_plugins
+    begin
+      output = fuel_plugins(['-getproxybypassdomains', int])
+    rescue Puppet::ExecutionFailure => e
+      Puppet.debug("#get_proxy_bypass_domains had an error -> #{e.inspect}")
+      return nil
+    end
+    @property_flush[:plugins] = output
+  end
+
+  def get_plugin
+  	@propety_flush[:plugins].each do |plugin|
+  	  if plugin == @resource.value(:plugin)
+  	  	return plugin
+  	  end
+  	end
+  	nil
+  end
+
+  def exists?
+  	get_plugin != nil
+  end
+
+  def create
+    fuel_plugins("--install", @resource.value(:name))
+  end
+  
+
+
+end
