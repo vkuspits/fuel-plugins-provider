@@ -25,15 +25,16 @@ Puppet::Type.type(:fuel_plugins).provide(:ruby) do
       result << tmp
     end
 
-    @property_flush[:plugins] = result
+    @property_hash[:plugins] = result
 
   end
 
-  def self.instances
-    get_plugins.collect do 
+#  def self.instances
+#    get_plugins.collect do 
+#  end
 
   def self.get_plugin
-  	@propety_flush[:plugins].each do |plugin|
+  	@propety_hash[:plugins].each do |plugin|
   	  if plugin[:name] == @resource.value(:plugin) && plugin[:version] == @resource.value(:version)
   	  	return plugin
   	  end
